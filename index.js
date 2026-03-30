@@ -99,6 +99,19 @@ app.get(`${homePath}`, (req, res) => {
   res.send("Welcome to Express server");
 });
 
+app.get(`${homePath}/recipe`, async (req, res) => {
+  const { data, error } = await getAllRecipe();
+
+  if (error) {
+    console.log("db error: fetching all recipe", error);
+    return res
+      .status(500)
+      .json(fail("Internal server error: db operation failed"));
+  }
+
+  res.status(200).json(success("recipies fetched", { data: data }));
+});
+
 app.post(`${homePath}/recipe`, async (req, res) => {
   const recipe = req.body;
   const { data, error } = await addRecipe(recipe);
