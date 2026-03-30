@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "BE4_Assignment1",
+      name: "BE4_Assignment2",
       script: "index.js",
       max_restarts: 5,
       min_uptime: "10s",
