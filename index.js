@@ -9,6 +9,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const homePath = "/neog/BE/4/Assignemnt_2";
+
+app.get(`${homePath}`, (req, res) => {
+  res.send("Welcome to Express server");
+});
+
 (async () => {
   await connectDb();
 
