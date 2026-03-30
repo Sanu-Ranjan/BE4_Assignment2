@@ -16,6 +16,18 @@ const dataObj = {
   error: (error) => ({ data: null, error: error }),
 };
 
+const success = (message, data) => ({
+  success: true,
+  message,
+  data,
+});
+
+const fail = (message, details = null) => ({
+  success: false,
+  error: message,
+  details,
+});
+
 const addRecipe = async (recipe) => {
   try {
     const saveddata = await Recipe.create(recipe);
@@ -85,6 +97,20 @@ const deleteRecipeById = async (id) => {
 
 app.get(`${homePath}`, (req, res) => {
   res.send("Welcome to Express server");
+});
+
+app.post(`${homePath}/recipe`, async (req, res) => {
+  const recipe = req.body;
+  const { data, error } = await addRecipe(recipe);
+
+  if (error) {
+    console.log("db error: adding new recipe", error);
+    return res
+      .status(500)
+      .json(fail("Internal server error: db operation failed"));
+  }
+
+  res.status(201).json(success("Recipe added", { data: data }));
 });
 
 (async () => {
