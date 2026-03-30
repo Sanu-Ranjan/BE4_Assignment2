@@ -112,6 +112,22 @@ app.get(`${homePath}/recipe`, async (req, res) => {
   res.status(200).json(success("recipies fetched", { data: data }));
 });
 
+app.get(`${homePath}/recipe/title/:title`, async (req, res) => {
+  const { title } = req.params;
+  const { data, error } = await getOneRecipeBy({ title: title });
+
+  if (error) {
+    console.log("db error: get recipe by title", error);
+    return res
+      .status(500)
+      .json(fail("Internal server error: db operation failed"));
+  }
+
+  if (!data) return res.status(404).json(fail("Recipe not found"));
+
+  res.status(200).json(success("Recipe fetched successfully", { data: data }));
+});
+
 app.post(`${homePath}/recipe`, async (req, res) => {
   const recipe = req.body;
   const { data, error } = await addRecipe(recipe);
