@@ -187,6 +187,8 @@ app.post(`${homePath}/recipe/id/:id`, async (req, res) => {
       .json(fail("Internal server error: db operation failed"));
   }
 
+  if (!data) return res.status(404).json(fail("Recipe not found"));
+
   res.status(200).json(success("Recipe modified successfully", { data: data }));
 });
 
