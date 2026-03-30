@@ -12,7 +12,7 @@ const recipeSchema = new mongoose.Schema(
     difficulty: { type: String, enum: ["Easy", "Intermediate", "Difficult"] },
     prepTime: { type: Number, required: true },
     cookTime: { type: Number, required: true },
-    ingerdients: [{ type: Strings, required: true }],
+    ingerdients: [{ type: String, required: true }],
     instructions: [{ type: String, required: true }],
     imageUrl: [{ type: String, required: true }],
   },
