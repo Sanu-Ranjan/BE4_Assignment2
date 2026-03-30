@@ -11,6 +11,78 @@ app.use(express.json());
 
 const homePath = "/neog/BE/4/Assignemnt_2";
 
+const dataObj = {
+  data: (data) => ({ data: data, error: null }),
+  error: (error) => ({ data: null, error: error }),
+};
+
+const addRecipe = async (recipe) => {
+  try {
+    const saveddata = await Recipe.create(recipe);
+    return dataObj.data(saveddata);
+  } catch (error) {
+    return dataObj.error(error);
+  }
+};
+
+const getAllRecipe = async () => {
+  try {
+    const data = await Recipe.find();
+    return dataObj.data(data);
+  } catch (error) {
+    return dataObj.error(error);
+  }
+};
+
+const getRecipesBy = async (querryParam) => {
+  try {
+    const data = await Recipe.find(querryParam);
+    return dataObj.data(data);
+  } catch (error) {
+    return dataObj.error(error);
+  }
+};
+
+const getOneRecipeBy = async (querryParam) => {
+  try {
+    const data = await Recipe.findOne(querryParam);
+    return dataObj.data(data);
+  } catch (error) {
+    return dataObj.error(error);
+  }
+};
+
+const updateRecipeById = async (id, updateData) => {
+  try {
+    const data = Recipe.findByIdAndUpdate(id, updateData, {
+      returnDocument: "after",
+    });
+    return dataObj.data(data);
+  } catch (error) {
+    return dataObj.error(error);
+  }
+};
+
+const updateRecipeBy = async (querryParam, updateData) => {
+  try {
+    const data = Recipe.findOneAndUpdate(querryParam, updateData, {
+      returnDocument: "after",
+    });
+    return dataObj.data(data);
+  } catch (error) {
+    return dataObj.error(error);
+  }
+};
+
+const deleteRecipeById = async (id) => {
+  try {
+    const data = Recipe.findByIdAndDelete(id, { returnDocument: "after" });
+    return dataObj.data(data);
+  } catch (error) {
+    return dataObj.error(error);
+  }
+};
+
 app.get(`${homePath}`, (req, res) => {
   res.send("Welcome to Express server");
 });
