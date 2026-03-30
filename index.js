@@ -217,6 +217,22 @@ app.post(`${homePath}/recipe/title/:title`, async (req, res) => {
   res.status(200).json(success("Recipe modified successfully", { data: data }));
 });
 
+app.delete(`${homePath}/recipe/id/:id`, async (req, res) => {
+  const { id } = req.params;
+  const { data, error } = await deleteRecipeById(id);
+
+  if (error) {
+    console.log("db error: delete recipe by id", error);
+    return res
+      .status(500)
+      .json(fail("Internal server error: db operation failed"));
+  }
+
+  if (!data) return res.status(404).json(fail("Recipe not found"));
+
+  res.status(200).json(success("Recipe deleted successfully", { data: data }));
+});
+
 (async () => {
   await connectDb();
 
