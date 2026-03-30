@@ -77,7 +77,7 @@ const updateRecipeById = async (id, updateData) => {
 
 const updateRecipeBy = async (querryParam, updateData) => {
   try {
-    const data = Recipe.findOneAndUpdate(querryParam, updateData, {
+    const data = await Recipe.findOneAndUpdate(querryParam, updateData, {
       returnDocument: "after",
     });
     return dataObj.data(data);
@@ -88,7 +88,9 @@ const updateRecipeBy = async (querryParam, updateData) => {
 
 const deleteRecipeById = async (id) => {
   try {
-    const data = Recipe.findByIdAndDelete(id, { returnDocument: "after" });
+    const data = await Recipe.findByIdAndDelete(id, {
+      returnDocument: "after",
+    });
     return dataObj.data(data);
   } catch (error) {
     return dataObj.error(error);
