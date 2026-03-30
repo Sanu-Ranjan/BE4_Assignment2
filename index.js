@@ -66,7 +66,7 @@ const getOneRecipeBy = async (querryParam) => {
 
 const updateRecipeById = async (id, updateData) => {
   try {
-    const data = Recipe.findByIdAndUpdate(id, updateData, {
+    const data = await Recipe.findByIdAndUpdate(id, updateData, {
       returnDocument: "after",
     });
     return dataObj.data(data);
@@ -171,6 +171,23 @@ app.post(`${homePath}/recipe`, async (req, res) => {
   }
 
   res.status(201).json(success("Recipe added", { data: data }));
+});
+
+app.post(`${homePath}/recipe/id/:id`, async (req, res) => {
+  const { id } = req.params;
+  const { difficulty } = req.body;
+  const { data, error } = await updateRecipeById(id, {
+    difficulty: difficulty,
+  });
+
+  if (error) {
+    console.log("db error: update recipe difficulty by id", error);
+    return res
+      .status(500)
+      .json(fail("Internal server error: db operation failed"));
+  }
+
+  res.status(200).json(success("Recipe modified successfully", { data: data }));
 });
 
 (async () => {
